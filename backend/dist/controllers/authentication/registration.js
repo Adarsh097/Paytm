@@ -1,5 +1,7 @@
 import prisma from "../../configs/prisma.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import ENV from "../../configs/env.js";
 const registrationController = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
@@ -28,11 +30,16 @@ const registrationController = async (req, res) => {
                 password: hashedPassword
             }
         });
+        const token = jwt.sign({ userId: newUser.id }, ENV.JWT_SECRET, { expiresIn: "1h" });
+        res.cookie("token", token, {
+            httpOnly: true,
+            secure: ENV.NODE_ENV === "production", // set to true in production
+            sameSite: "strict",
+            maxAge: 3600000 // 1 hour
+        });
         return res.status(201).json({
             message: "User registered successfully",
-            data: {
-                userId: newUser.id
-            }
+            token
         });
     }
     catch (error) {
