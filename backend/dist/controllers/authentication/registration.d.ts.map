@@ -1,0 +1,1 @@
+{"version":3,"file":"registration.d.ts","sourceRoot":"","sources":["../../../src/controllers/authentication/registration.ts"],"names":[],"mappings":"AAAA,OAAO,KAAK,EAAE,OAAO,EAAE,QAAQ,EAAE,MAAM,SAAS,CAAC;AAIjD,QAAA,MAAM,sBAAsB,GAAU,KAAK,OAAO,EAAE,KAAK,QAAQ,4DA4ChE,CAAC;AAEF,eAAe,sBAAsB,CAAC"}
