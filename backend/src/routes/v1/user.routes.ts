@@ -8,6 +8,7 @@ const UserRouter = express.Router();
 UserRouter.post("/signup",validateUserMiddleware,controllers.authControllers.registration);
 UserRouter.post("/signin",validateUserMiddleware,controllers.authControllers.signin);
 UserRouter.patch("/profile",authMiddleware,validateUserMiddleware,controllers.userControlllers.profileUpdate);
+UserRouter.get("/find",authMiddleware,controllers.userControlllers.findUser);
 
 
 export default UserRouter;
