@@ -9,7 +9,7 @@ const validateUserMiddleware = (req:authRequest, res:Response, next: NextFunctio
         userSchema.parse(req.body);
         next();
     } catch (error) {
-        return res.status(400).json({
+        return res.status(utils.HTTP.BAD_REQUEST).json({
             error: "Invalid request data",
             details: error
         })

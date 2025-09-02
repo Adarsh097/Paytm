@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 import ENV from "../configs/env.js";
+import utils from "../utils/index.js";
 const authMiddleware = (req, res, next) => {
     try {
         const token = req.headers["authorization"]?.split(" ")[1] || req.cookies.token;
         if (!token) {
-            res.status(401).json({
+            res.status(utils.HTTP.UNAUTHORIZED).json({
                 error: "Unauthorized"
             });
             return;
@@ -14,7 +15,7 @@ const authMiddleware = (req, res, next) => {
         next();
     }
     catch (error) {
-        return res.status(500).json({
+        return res.status(utils.HTTP.INTERNAL_ERROR).json({
             error: "Internal server error"
         });
     }

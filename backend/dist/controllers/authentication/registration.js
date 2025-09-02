@@ -2,11 +2,12 @@ import prisma from "../../configs/prisma.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import ENV from "../../configs/env.js";
+import utils from "../../utils/index.js";
 const registrationController = async (req, res) => {
     try {
         const { firstName, lastName, email, password } = req.body;
         if (!firstName || !lastName || !email || !password) {
-            res.status(400).json({
+            res.status(utils.HTTP.BAD_REQUEST).json({
                 error: "All fields are required"
             });
             return;
@@ -16,7 +17,7 @@ const registrationController = async (req, res) => {
             where: { email }
         });
         if (existingUser) {
-            res.status(409).json({
+            res.status(utils.HTTP.BAD_REQUEST).json({
                 error: "User already exists"
             });
             return;
@@ -37,13 +38,13 @@ const registrationController = async (req, res) => {
             sameSite: "strict",
             maxAge: 3600000 // 1 hour
         });
-        return res.status(201).json({
+        return res.status(utils.HTTP.CREATED).json({
             message: "User registered successfully",
             token
         });
     }
     catch (error) {
-        res.status(500).json({
+        res.status(utils.HTTP.INTERNAL_ERROR).json({
             error: "Internal server error: Registration"
         });
     }

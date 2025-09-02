@@ -1,6 +1,8 @@
+import HTTP from "./status.js";
 import userSchema from "./user.schema.js";
 
 const utils = {
-    userSchema
+    userSchema,
+    HTTP
 }
 export default utils;

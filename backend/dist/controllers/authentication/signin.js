@@ -2,11 +2,12 @@ import prisma from "../../configs/prisma.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import ENV from "../../configs/env.js";
+import utils from "../../utils/index.js";
 const signinController = async (req, res) => {
     try {
         const { email, password } = req.body;
         if (!email || !password) {
-            res.status(400).json({
+            res.status(utils.HTTP.BAD_REQUEST).json({
                 error: "All fields are required",
             });
             return;
@@ -15,14 +16,14 @@ const signinController = async (req, res) => {
             where: { email },
         });
         if (!userData) {
-            res.status(404).json({
+            res.status(utils.HTTP.NOT_FOUND).json({
                 error: "Invalid email or password",
             });
             return;
         }
         const isPasswordValid = await bcrypt.compare(password, userData.password);
         if (!isPasswordValid) {
-            res.status(401).json({
+            res.status(utils.HTTP.UNAUTHORIZED).json({
                 error: "Invalid email or password",
             });
             return;
@@ -38,13 +39,13 @@ const signinController = async (req, res) => {
             sameSite: "strict",
             maxAge: 3600000 // 1 hour
         });
-        return res.status(200).json({
+        return res.status(utils.HTTP.SUCCESS).json({
             message: "Signin successful",
             token: token
         });
     }
     catch (error) {
-        return res.status(500).json({
+        return res.status(utils.HTTP.INTERNAL_ERROR).json({
             error: "Internal server error: Signin",
         });
     }
